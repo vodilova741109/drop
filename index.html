@@ -3,37 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-new.css">
     <title>Document</title>
 </head>
 <body>
-
-    <h1 class="yellow">Расставьте объекты на площади</h1>
-    <form action="">
-        <input type="text" >
-    </form>
-    <div class="wrapper">
-        <div class="container">
-           
-            <div class="draggable img1"></div>
-            <div class="draggable img2"></div>
-            <div class="draggable img3"></div>
-            <div class="draggable img4"></div>
-            <div class="draggable img5"></div>
-            <div class="draggable img6"></div>
-            <div class="draggable img7"></div>
-            <div class="draggable img8"></div>
+    <div class="d-flex">
+        <div class="baza">
            
         </div>
-        <img src="images/ushastok.jpg" alt="">
- 
-
+        
+        
+        <div class="wrapper">
+          
+            <div class="empty">       
+                <div class="draggable img1" draggable="true" id="0"></div>                    
+            </div>
+            <div class="empty">
+                <div class="draggable img2" draggable="true" id="1"></div>  
+            </div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+           
+            <!-- <img src="" alt=""> -->
+     
+    
+        </div>
+        
     </div>
 
 
-    
-
-    <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
-    <script src="drop.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
