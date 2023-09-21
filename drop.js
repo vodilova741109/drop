@@ -1,33 +1,103 @@
-// external js: draggabilly.pkgd.js
-
-// get all draggie elements
+// вводные данные
 const 
+formUchastok = document.querySelectorAll('.form-uchastok input');
 elem =document.querySelectorAll('.obc input'),
+elemType =document.querySelectorAll('input[name="elem-type[]"]'),
+inputParam = document.querySelectorAll('fieldset .fusion-form-checkbox'),
 section = document.querySelector('section'),
 wrapper = document.querySelector('.wrapper'),
 zone1 = document.querySelector('.zone'),
 zone2 = document.querySelector('.container'),
-draggableElems = document.querySelectorAll('.draggable');
+draggableElems = document.querySelectorAll('.draggable'),
+btnControle = document.querySelector('.calc-control');
 
-
-
-
-for(let i = 0; i < elem.length; i++){
-
-  elem[i].addEventListener('click', (e) =>{  
-    elem[i].setAttribute('checked', 'true');  
-    if(elem[i].checked &&  elem[i].value === draggableElems[i].id){
-      console.log(draggableElems[i]);      
-      draggableElems[i].classList.remove('d-none');
-    } else {
-      draggableElems[i].classList.add('d-none');
-    }
-  })
-
-
-
+function addImagEndInput(){
+  for(let i = 0; i < elem.length; i++){
+    const inputElement = document.createElement('div');  
+    elem[i].addEventListener('change', (e) =>{  
+      e.preventDefault;
+      elem[i].setAttribute('checked', 'true'); 
+            
+      if(elem[i].checked &&  elem[i].value === draggableElems[i].id){
+        // добавляет img и див под инпуты 
+        draggableElems[i].classList.remove('d-none');
+        // console.log(draggableElems[i])
+        addInput(i, inputElement);
+        
+      } else {
+        // удаляет img и див под инпуты 
+        draggableElems[i].classList.add('d-none');    
+        inputParam[i].removeChild(inputElement);
+      }
+    })
+  }
+}
+addImagEndInput();
+// функция добавляет в див инпуты 
+function addInput(i,inputElement) {   
+  inputElement.classList.add('param'); 
+  if(draggableElems[i].id == 'minDer' || draggableElems[i].id == 'maxDer') {          
+    inputElement.innerHTML = '<input class="height" type="number" min="1" max="7" placeholder="5" value="5"> Высота(м) ';              
+    inputParam[i].appendChild(inputElement);        
+  } 
+  else if (draggableElems[i].id == 'cust' || draggableElems[i].id == 'zvety') {   
+    inputElement.innerHTML = '<input class="height" type="number" min="1" max="5" placeholder="2" value="3"> Ширина(м) ';              
+    inputParam[i].appendChild(inputElement);        
+  }
+  else {
+    inputElement.innerHTML = '<input class="height" type="number" min="1" max="100" placeholder="5" value="60"> Площадь(м2) ';     
+    inputParam[i].appendChild(inputElement); 
+  }
+     
+         
 }
 
+
+
+
+ //  функция получения и передачи параметров
+function getParam(){
+  zone2.style.height = formUchastok[1].value*150 +'px';
+  zone2.style.width = formUchastok[0].value*150 +'px';
+  inputParam.forEach( (item, index) => {
+    const blockParam = item.querySelectorAll(' input');
+    let arrayValue = [];
+    if(blockParam[0].checked){
+      for (let i = 0; i < blockParam.length; i++) {        
+        arrayValue.push(blockParam[i].value);   
+
+        // console.log(draggableElems[i].id);
+    
+        for (let i = 0; i < draggableElems.length; i++) { 
+         
+          if(draggableElems[i].id == blockParam[0].value) {   
+            if(draggableElems[i].id == 'minDer' || draggableElems[i].id == 'maxDer'  || draggableElems[i].id == 'cust' || draggableElems[i].id == 'zvety') {            
+              draggableElems[i].style.height = blockParam[1].value*15 +'px';
+              draggableElems[i].style.width =blockParam[1].value*15 +'px';       
+            } else {       
+         
+            draggableElems[i].style.height = Math.sqrt(blockParam[1].value)*15 +'px';
+            draggableElems[i].style.width = Math.sqrt(blockParam[1].value)*15 +'px'; 
+
+            }    
+          } 
+         }
+      } 
+    }
+  })
+}
+ //событиe передачи параметров
+btnControle.addEventListener('click', (e) =>{ 
+  e.preventDefault(); 
+  getParam();
+})  
+
+
+
+
+
+
+// DROP
 // код от библиотеки
 // array of Draggabillies
 // let draggies = []
@@ -88,22 +158,59 @@ for ( let draggableElem of draggableElems ) {
         draggableElem.style.top = section.offsetTop  + 'px';
         // draggableElem.style.left = section.offsetLeft+section.offsetWidth - draggableElem.offsetWidth + 'px';
         const coords1 = getCoords(draggableElem);
-        console.log(coords1)   
+        console.log(coords1);
+       
+        // console.log(coords1)   
       }
-       else if(draggableElem.offsetTop + draggableElem.offsetHeight  >= section.offsetTop + section.offsetHeight ) {
-        draggableElem.style.top = section.offsetTop + section.offsetHeight - draggableElem.offsetHeight + 'px';
+       else if(draggableElem.offsetTop + draggableElem.offsetHeight  >= section.offsetTop + zone2.offsetHeight ) {
+        draggableElem.style.top = (section.offsetTop + zone2.offsetHeight - draggableElem.offsetHeight) + 'px';
+       
       }
        // по ширине
 
-      if (draggableElem.offsetLeft <= section.offsetLeft ) {
-        draggableElem.style.left  = section.offsetLeft  + 'px';
+      if (draggableElem.offsetLeft <= zone2.offsetLeft) {
+        draggableElem.style.left  = zone2.offsetLeft + 30 + 'px' ;
         // draggableElem.style.left = section.offsetLeft+section.offsetWidth - draggableElem.offsetWidth + 'px';
-        const coords1 = getCoords(draggableElem);
-        console.log(coords1)   
+        // const coords1 = getCoords(draggableElem);
+     
+         
       } 
       else if(draggableElem.offsetLeft + draggableElem.offsetWidth  >= zone2.offsetLeft + zone2.offsetWidth ) {
         draggableElem.style.left = zone2.offsetLeft + zone2.offsetWidth - draggableElem.offsetWidth + 'px';
       }
+       
+      // условия отступа
+       
+
+        let otstup = 15;
+        switch(draggableElem.id) {
+          case 'home': 
+          case 'maxDer':
+          case 'banya':
+          case 'vodoem':
+          otstup = 45;
+          break;
+          case 'minDer':
+            otstup = 30;
+          break;
+          default:
+            otstup = 15;
+            break;
+        }
+
+        if(draggableElem.offsetTop <= (section.offsetTop + otstup) || 
+        draggableElem.offsetLeft <= zone2.offsetLeft + otstup +10 ||
+        draggableElem.offsetTop + draggableElem.offsetHeight  >= section.offsetTop + zone2.offsetHeight - otstup ||
+        draggableElem.offsetLeft + draggableElem.offsetWidth  >= zone2.offsetLeft + zone2.offsetWidth - otstup
+        )        {
+         
+          draggableElem.classList.add('neon');
+        }
+        else {
+          draggableElem.classList.remove('neon');
+        }
+    
+      // (draggableElem.id == 'home' && (draggableElem.offsetTop <= section.offsetTop + 200 || draggableElem.offsetTop >= zone2.offsetLeft + zone2.offsetWidth -500) )
      
     }
   

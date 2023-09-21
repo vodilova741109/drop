@@ -8,8 +8,12 @@
   </head>
   <body>
     <h1 class="yellow">Расставьте объекты на площади</h1>
-    <form action="">
-      <fieldset class="obc">
+    <form action="" class="frm-param">
+        <div class="form-uchastok">
+            Размер участка (сотка): 
+            По горизонтали <input class="whidth" value="4" type="number" min="1" max="10" placeholder="10">   
+            По вертикали <input class="height" value="3" type="number" min="1" max="10" placeholder="5"></div>
+      <fieldset class="obc">     
         <div class="fusion-form-checkbox">
           <input
             tabindex=""
@@ -64,7 +68,7 @@
             name="elem-type[]"
             class="fusion-form-input"
             data-holds-private-data="false"
-          /><label for="checkbox-elem-type-1-4">Хоз.постройка</label>
+          /><label for="checkbox-elem-type-1-4">Постройка</label>
         </div>
         <div class="fusion-form-checkbox">
           <input
@@ -97,7 +101,7 @@
             name="elem-type[]"
             class="fusion-form-input"
             data-holds-private-data="false"
-          /><label for="checkbox-elem-type-1-7">Малое дерево</label>
+          /><label for="checkbox-elem-type-1-7">Среднее дерево</label>
         </div>
         <div class="fusion-form-checkbox">
           <input
@@ -108,7 +112,7 @@
             name="elem-type[]"
             class="fusion-form-input"
             data-holds-private-data="false"
-          /><label for="checkbox-elem-type-1-8">Большое дерево</label>
+          /><label for="checkbox-elem-type-1-8">Большое Дерево</label>
         </div>
         <div class="fusion-form-checkbox">
           <input
@@ -120,29 +124,49 @@
             class="fusion-form-input"
             data-holds-private-data="false"
           /><label for="checkbox-elem-type-1-9">Куст</label>
-        </div>
+        </div> 
+        <div class="fusion-form-checkbox">
+            <input
+              tabindex=""
+              id="checkbox-elem-type-1-9"
+              type="checkbox"
+              value="zvety"
+              name="elem-type[]"
+              class="fusion-form-input"
+              data-holds-private-data="false"
+            /><label for="checkbox-elem-type-1-9">Цветы</label>
+          </div>         
       </fieldset>
+      <button class="btnFrm calc-control">Изменить параметры</button>
     </form>
 
     <section>
       <div class="wrapper d-flex">
         <div class="zone">
-          <div class="draggable img1 d-none" draggable="true" id="home" ></div>
-          <div class="draggable img2 d-none" draggable="true" id="garag"></div>
-          <div class="draggable img3 d-none" draggable="true" id="besed"></div>
-          <div class="draggable img4 d-none" draggable="true" id="banya"></div>
-          <div class="draggable img5 d-none" draggable="true" id="hozp"></div>
-          <div class="draggable img6 d-none" draggable="true" id="tualet"></div>
-          <div class="draggable img7 d-none" draggable="true" id="vodoem"></div>
-          <div class="draggable img8 d-none" draggable="true" id="minDer"></div>
-          <div class="draggable img9 d-none" draggable="true" id="maxDer"></div>
-          <div class="draggable img10 d-none" draggable="true" id="cust"></div>
+          <div data-tooltip="Расстояние до забора 3 м" class="draggable  img1 d-none" draggable="true" id="home" ></div>
+          <div data-tooltip="Расстояние до забора 1 м" class="draggable img2 d-none" draggable="true" id="garag"></div>
+          <div data-tooltip="Расстояние до забора 1 м" class="draggable img3 d-none" draggable="true" id="besed"></div>
+          <div data-tooltip="Расстояние до забора 3 м" class="draggable img4 d-none" draggable="true" id="banya"></div>
+          <div data-tooltip="Расстояние до забора 2 м" class="draggable img5 d-none" draggable="true" id="hozp"></div>
+          <div data-tooltip="Расстояние до забора 1 м" class="draggable img6 d-none" draggable="true" id="tualet"></div>
+          <div data-tooltip="Расстояние до забора 3 м" class="draggable img7 d-none" draggable="true" id="vodoem"></div>
+          <div data-tooltip="Расстояние до забора 2 м" class="draggable img8 d-none" draggable="true" id="minDer"></div>
+          <div data-tooltip="Расстояние до забора 3 м" class="draggable img9 d-none" draggable="true" id="maxDer"></div>
+          <div data-tooltip="Расстояние до забора 1 м" class="draggable img10 d-none" draggable="true" id="cust"></div>
+          <div data-tooltip="Расстояние до забора 1 м" class="draggable img11 d-none" draggable="true" id="zvety"></div>
+     
         </div>
         <div class="container">
-          <!-- <div class="zone"></div>
-                <div class="zone"></div>
-                <div class="zone"></div>
-                <div class="zone"></div> -->
+            
+            <div class="block-ots">
+            
+                <img src="images/ushastok.jpg"> 
+                <!-- <svg viewBox="0 0 2000 1333"> 
+                </svg> -->
+                <!-- <div   class="zone-new"></div> -->
+            </div>
+         
+      
         </div>
         <!-- <img src="" alt=""> -->
       </div>
