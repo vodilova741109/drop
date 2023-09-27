@@ -7,10 +7,11 @@ inputParam = document.querySelectorAll('fieldset .fusion-form-checkbox'),
 section = document.querySelector('section'),
 wrapper = document.querySelector('.wrapper'),
 zone1 = document.querySelector('.zone'),
-zone2 = document.querySelector('.container'),
+container = document.querySelector('.container'),
+blockPading = document.querySelector('.block-ots'),
 draggableElems = document.querySelectorAll('.draggable'),
 btnControle = document.querySelector('.calc-control');
-
+// добавить картинку и див под инпуты
 function addImagEndInput(){
   for(let i = 0; i < elem.length; i++){
     const inputElement = document.createElement('div');  
@@ -51,14 +52,10 @@ function addInput(i,inputElement) {
      
          
 }
-
-
-
-
- //  функция получения и передачи параметров
+ // функция получения и передачи параметров
 function getParam(){
-  zone2.style.height = formUchastok[1].value*150 +'px';
-  zone2.style.width = formUchastok[0].value*150 +'px';
+  container.style.height = formUchastok[1].value*150 +'px';
+  container.style.width = formUchastok[0].value*150 +'px';
   inputParam.forEach( (item, index) => {
     const blockParam = item.querySelectorAll(' input');
     let arrayValue = [];
@@ -92,11 +89,6 @@ btnControle.addEventListener('click', (e) =>{
   getParam();
 })  
 
-
-
-
-
-
 // DROP
 // код от библиотеки
 // array of Draggabillies
@@ -110,134 +102,237 @@ btnControle.addEventListener('click', (e) =>{
 // }
 
 // zone1.ondragover = allowDrop;
-// zone2.ondragover = allowDrop;
+// container.ondragover = allowDrop;
 // function allowDrop(event) {
 //   event.preventDefault();
 // }
 
-// mouse
-for ( let draggableElem of draggableElems ) { 
-  // onmousedown возникает при захвате элемента или клике
-  draggableElem.onmousedown = function(e) {
-//  получаем координаты элементы left и top, высоту и ширину перемещаемого элемента
-    const coords = getCoords(draggableElem),
-    dragHeight = draggableElem.offsetHeight,
-    dragWidth = draggableElem.offsetWidth;
- 
-  // console.log(dragHeight, dragWidth);
-  
-
-    const shiftX = e.pageX - coords.left;
-    const shiftY = e.pageY - coords.top;
-    // console.log(e.pageX, e.pageY)
-
-     // подготовить к перемещению
-     // 2. разместить на том же месте, но в абсолютных координатах  
-    draggableElem.style.position = 'absolute';
-     // переместим в section, чтобы мяч был точно не внутри position:relative
-     section.appendChild(draggableElem);
-
-    //  вызываем функцию
-    moveAt(e);
-  
-    draggableElem.style.zIndex = 1000; // над другими элементами
-
-    // передвинуть мяч под координаты курсора
-    // и сдвинуть на половину ширины/высоты для центрирования  
-    function moveAt(e) {
-      draggableElem.style.top = e.pageY - shiftY + 'px';
-      draggableElem.style.left = e.pageX - shiftX + 'px';
+for ( let draggableElem of draggableElems ) {
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    // код для мобильных устройств
+    // console.log('мобильник');
+    draggableElem.addEventListener('touchmove', dragMove);
+    function dragMove(event) {    
+     event.preventDefault();
+     // индекс кол-во пальцев
+     let touch = event.targetTouches[0];  
+     draggableElem.style.position = 'absolute';
+     // передаем координаты и вычисляем относительно обертки и центра самого себя      
+     draggableElem.style.top = `${touch.pageY - wrapper.offsetTop - (draggableElem.offsetHeight/2)}px`;
+     draggableElem.style.left = `${touch.pageX - wrapper.offsetLeft - (draggableElem.offsetWidth/2)}px`; 
+     // 15 px border container   
+     drag(container.offsetTop, 15, 0);
+   }
+  } else {
+    // код для обычных устройств
+    // console.log('обычное');
+    draggableElem.onmousedown = function(e) {
+      //  получаем координаты элементы left и top, высоту и ширину перемещаемого элемента
+          const coords = getCoords(draggableElem),
+          dragHeight = draggableElem.offsetHeight,
+          dragWidth = draggableElem.offsetWidth;     
       
-      // console.log(draggableElem.offsetTop, draggableElem.offsetLeft);
-      // console.log(section.offsetTop, section.offsetLeft+section.offsetWidth);
+          const shiftX = e.pageX - coords.left;
+          const shiftY = e.pageY - coords.top;         
+      
+            // подготовить к перемещению
+            // 2. разместить на том же месте, но в абсолютных координатах  
+          draggableElem.style.position = 'absolute';
+            // переместим в section, чтобы мяч был точно не внутри position:relative
+            section.appendChild(draggableElem);      
+          //  вызываем функцию
+          moveAt(e);        
+          draggableElem.style.zIndex = 1000; // над другими элементами
+      
+          // передвинуть элемент под координаты курсора
+          // и сдвинуть на половину ширины/высоты для центрирования  
+          function moveAt(e) {
+            draggableElem.style.top = e.pageY - shiftY + 'px';
+            draggableElem.style.left = e.pageX - shiftX + 'px';
+            // ограничения
+            // 15 px border container + 20px padding section 
+            drag(wrapper.offsetTop, 15, 20);
+            
+          }
+          document.onmousemove = function(e) {
+            moveAt(e);
+          };
+          // сброс элемента 
+          draggableElem.onmouseup = function() {
+            document.onmousemove = null;
+            draggableElem.onmouseup = null;
+          };
+        }  
+  }
+  // Отмена действия браузера по событию dragstart.
+  draggableElem.ondragstart = function() {
+    return false;
+    };
+  // touchmove
 
-      // &&  draggableElem.offsetLeft+draggableElem.offsetWidth >= section.offsetLeft+section.offsetWidth
-    // органичения по section
+//  draggableElem.addEventListener('mousedown', dragMoveMouse);
+ 
+  function drag(Top, ots, ots2){
     // по высоте
-      if (draggableElem.offsetTop <= section.offsetTop ) {
-        draggableElem.style.top = section.offsetTop  + 'px';
-        // draggableElem.style.left = section.offsetLeft+section.offsetWidth - draggableElem.offsetWidth + 'px';
-        const coords1 = getCoords(draggableElem);
-        console.log(coords1);
-       
-        // console.log(coords1)   
-      }
-       else if(draggableElem.offsetTop + draggableElem.offsetHeight  >= section.offsetTop + zone2.offsetHeight ) {
-        draggableElem.style.top = (section.offsetTop + zone2.offsetHeight - draggableElem.offsetHeight) + 'px';
-       
-      }
-       // по ширине
-
-      if (draggableElem.offsetLeft <= zone2.offsetLeft) {
-        draggableElem.style.left  = zone2.offsetLeft + 30 + 'px' ;
-        // draggableElem.style.left = section.offsetLeft+section.offsetWidth - draggableElem.offsetWidth + 'px';
-        // const coords1 = getCoords(draggableElem);
-     
-         
-      } 
-      else if(draggableElem.offsetLeft + draggableElem.offsetWidth  >= zone2.offsetLeft + zone2.offsetWidth ) {
-        draggableElem.style.left = zone2.offsetLeft + zone2.offsetWidth - draggableElem.offsetWidth + 'px';
-      }
-       
-      // условия отступа
-       
-
-        let otstup = 15;
-        switch(draggableElem.id) {
-          case 'home': 
-          case 'maxDer':
-          case 'banya':
-          case 'vodoem':
-          otstup = 45;
-          break;
-          case 'minDer':
-            otstup = 30;
-          break;
-          default:
-            otstup = 15;
-            break;
-        }
-
-        if(draggableElem.offsetTop <= (section.offsetTop + otstup) || 
-        draggableElem.offsetLeft <= zone2.offsetLeft + otstup +10 ||
-        draggableElem.offsetTop + draggableElem.offsetHeight  >= section.offsetTop + zone2.offsetHeight - otstup ||
-        draggableElem.offsetLeft + draggableElem.offsetWidth  >= zone2.offsetLeft + zone2.offsetWidth - otstup
-        )        {
-         
-          draggableElem.classList.add('neon');
-        }
-        else {
-          draggableElem.classList.remove('neon');
-        }
     
-      // (draggableElem.id == 'home' && (draggableElem.offsetTop <= section.offsetTop + 200 || draggableElem.offsetTop >= zone2.offsetLeft + zone2.offsetWidth -500) )
-     
+    if (draggableElem.offsetTop <= Top) {
+      draggableElem.style.top =  `${Top+ots}px`;
     }
+    else if(draggableElem.offsetTop + draggableElem.offsetHeight  >= Top + container.offsetHeight ) {
+      draggableElem.style.top = `${Top + container.offsetHeight -draggableElem.offsetHeight-ots}px`;
+    
+    }
+    // по ширине
+    if (draggableElem.offsetLeft <= container.offsetLeft) {
+      draggableElem.style.left  = `${container.offsetLeft+ ots +ots2}px`;     
+      console.log(container.offsetLeft)
+
+    }     
+    else if(draggableElem.offsetLeft + draggableElem.offsetWidth  >= container.offsetLeft + container.offsetWidth ) {
+      draggableElem.style.left = `${container.offsetLeft + container.offsetWidth +ots/2 -draggableElem.offsetWidth}px`;
+    }      
+    // условия отступа
+      let otstup = 15;
+      switch(draggableElem.id) {
+        case 'home': 
+        case 'maxDer':
+        case 'banya':
+        case 'vodoem':
+        otstup = 45;
+        break;
+        case 'minDer':
+        case 'hozp':
+          otstup = 30;
+        break;
+        default:
+          otstup = 15;
+          break;
+      }
   
-    document.onmousemove = function(e) {
-      moveAt(e);
-    };
-  
-    draggableElem.onmouseup = function() {
-      document.onmousemove = null;
-      draggableElem.onmouseup = null;
-    };
-   
+      if(draggableElem.offsetTop < (Top + ots + otstup -2) || 
+      draggableElem.offsetLeft < container.offsetLeft+ ots + ots2 + otstup  ||
+      draggableElem.offsetTop + draggableElem.offsetHeight  > Top + container.offsetHeight -ots - otstup||
+      draggableElem.offsetLeft + draggableElem.offsetWidth  > container.offsetLeft + ots2 + container.offsetWidth -ots - otstup +2
+      ) {     
+        draggableElem.classList.add('neon');
+        console.log(wrapper.offsetTop + container.offsetHeight -draggableElem.offsetHeight-ots -otstup);
+        console.log(wrapper.offsetTop,container.offsetHeight,draggableElem.offsetHeight,ots,otstup);
+        
+        }
+      else {
+        draggableElem.classList.remove('neon');
+        } 
   }
 
+}
 
+
+// mouse
+// for ( let draggableElem of draggableElems ) { 
+//   // onmousedown возникает при захвате элемента или клике
+//   draggableElem.onmousedown = function(e) {
+// //  получаем координаты элементы left и top, высоту и ширину перемещаемого элемента
+//     const coords = getCoords(draggableElem),
+//     dragHeight = draggableElem.offsetHeight,
+//     dragWidth = draggableElem.offsetWidth;
+ 
+//   // console.log(dragHeight, dragWidth);
   
-}
 
+//     const shiftX = e.pageX - coords.left;
+//     const shiftY = e.pageY - coords.top;
+//     // console.log(e.pageX, e.pageY)
 
+//      // подготовить к перемещению
+//      // 2. разместить на том же месте, но в абсолютных координатах  
+//     draggableElem.style.position = 'absolute';
+//      // переместим в section, чтобы мяч был точно не внутри position:relative
+//      section.appendChild(draggableElem);
+
+//     //  вызываем функцию
+//     moveAt(e);
+  
+//     draggableElem.style.zIndex = 1000; // над другими элементами
+
+//     // передвинуть мяч под координаты курсора
+//     // и сдвинуть на половину ширины/высоты для центрирования  
+//     function moveAt(e) {
+//       draggableElem.style.top = e.pageY - shiftY + 'px';
+//       draggableElem.style.left = e.pageX - shiftX + 'px';
+//     //  ограничения
+//     // по высоте
+//       if (draggableElem.offsetTop <= container.offsetTop ) {
+//         draggableElem.style.top = container.offsetTop  + 'px';
+//         // draggableElem.style.left = section.offsetLeft+section.offsetWidth - draggableElem.offsetWidth + 'px';
+//         const coords1 = getCoords(draggableElem);
+//         // console.log(coords1);
+       
+//         // console.log(coords1)   
+//       }
+//        else if(draggableElem.offsetTop + draggableElem.offsetHeight  >= container.offsetTop + container.offsetHeight ) {
+//         draggableElem.style.top = (container.offsetTop + container.offsetHeight - draggableElem.offsetHeight) + 'px';
+       
+//       }
+//        // по ширине
+
+//       if (draggableElem.offsetLeft <= container.offsetLeft) {
+//         draggableElem.style.left  = container.offsetLeft + 35 + 'px' ;
+//         // draggableElem.style.left = section.offsetLeft+section.offsetWidth - draggableElem.offsetWidth + 'px';
+//         // const coords1 = getCoords(draggableElem);
+     
+         
+//       } 
+//       else if(draggableElem.offsetLeft + draggableElem.offsetWidth  >= container.offsetLeft + container.offsetWidth ) {
+//         draggableElem.style.left = container.offsetLeft + container.offsetWidth - draggableElem.offsetWidth + 35 +  'px';
+//       }
+       
+//       // условия отступа
+       
+
+//         let otstup = 15;
+//         switch(draggableElem.id) {
+//           case 'home': 
+//           case 'maxDer':
+//           case 'banya':
+//           case 'vodoem':
+//           otstup = 45;
+//           break;
+//           case 'minDer':
+//           case 'hozp':
+//             otstup = 30;
+//           break;
+//           default:
+//             otstup = 15;
+//             break;
+//         }
+
+//         if(draggableElem.offsetTop <= (container.offsetTop + otstup) || 
+//         draggableElem.offsetLeft <= container.offsetLeft + otstup + 20 ||
+//         draggableElem.offsetTop + draggableElem.offsetHeight  >= container.offsetTop + container.offsetHeight - otstup ||
+//         draggableElem.offsetLeft + draggableElem.offsetWidth  >= container.offsetLeft + container.offsetWidth - otstup 
+//         )        {
+         
+//           draggableElem.classList.add('neon');
+//         }
+//         else {
+//           draggableElem.classList.remove('neon');
+//         }
+//     }
+//     document.onmousemove = function(e) {
+//       moveAt(e);
+//     };
+//     draggableElem.onmouseup = function() {
+//       document.onmousemove = null;
+//       draggableElem.onmouseup = null;
+//     };
+//   }  
+// }
 // Отмена действия браузера по событию dragstart.
-for ( let draggableElem of draggableElems ) {
-  draggableElem.ondragstart = function() {
-  return false;
-};
-}
-
-
+// for ( let draggableElem of draggableElems ) {
+//   draggableElem.ondragstart = function() {
+//   return false;
+//   };
+// }
 function getCoords(elem) {   // кроме IE8-
   // возвращает размер элемента и его позицию относительно viewport
   const box = elem.getBoundingClientRect();
@@ -249,21 +344,7 @@ function getCoords(elem) {   // кроме IE8-
 
 
 
-// код для изменения параметров поля и элементов
-const img1 = document.querySelector('.img1'),
- img2 = document.querySelector('.img2'),
-  img3 = document.querySelector('.img3');
-// draggableElems[0].style.width = "150px";
-// draggableElems[0].style.height= "150px";
 
 
-// function drag(event){
-//   event.dataTransfer.setData('id', event.target.id);
-// }
-// zone1.touchmove = drop;
-// zone2.touchmove = drop;
 
-// function drop(event) {  
-//   let itemId = event.dataTransfer.getData('id'); 
-//   event.target.append(document.getElementById(itemId));  
-// }
+

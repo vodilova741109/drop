@@ -1,5 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
-    font-family: sans-serif;
+    font-family: sans-serif;     
+    color:
+#006a65;
 }
 
 .frm-param {
@@ -15,26 +22,29 @@ fieldset {
     border-radius: 4px;
     display: flex;
     flex-wrap: wrap;
+    background-color:  #b3de6a;
 }
 
 .fusion-form-input {
-    margin-top: 5px;
+    margin: 5px;
 }
 
 input {
-    border: rgba(211, 220, 50, .7) 1px solid;
+    border: #006a65 1px solid;
     border-radius: 3px;
 }
 
+
 .param {
-    border: rgba(211, 220, 50, .7) double;
+    border: 
+#006a65  double;
     padding: 5px;
 }
 
 .wrapper {
     position: relative;
-    max-width: 100vw;
-    margin: 10px;
+    /* max-width: 100vw; */
+    /* margin: 10px; */
     height: 80vh;
 }
 
@@ -57,42 +67,56 @@ input {
     top: 0px;
     left: 0;
     margin: 0;
-    width: 20%;
+    width: 18%;
     height: 100%;
+    z-index: 999;
 }
 
 section {
-    height: 100vh;
+   height: 100vh;
+   background-image: url('images/background.jpg');
+   background-repeat: no-repeat;
+   background-position: bottom left;
+   background-size:cover;
+   padding: 20px;
+   border-radius: 5px;
+   max-width: 100%;
+   
 }
 
 .container {
-    /* background-image: url('images/ushastok.jpg'); */
-    background: #b0b02f;
-    opacity: 1;
-    position: absolute;
-    /* padding-left: 20px; */
+    opacity: 0.8;
+    height: 100vh;
+    position: absolute;   
     top: 0px;
-    left: 23%;
+    left: 19%;
     width: 600px;
     height: 450px;
-    border: 3mm ridge rgba(211, 220, 50, .7);
+    border: 4mm ridge rgba(122, 102, 18, 0.8);
     box-shadow: 18px 14px 44px 0px rgba(34, 60, 80, 0.41);
     max-width: 80%;
+    max-height: 92vh;
 }
-.block-ots img {
+.block-ots {
+    width: 100%;
+    height: 100%; 
+    background: linear-gradient(rgba(24, 21, 7, 1), #c9d7d68e  2px),
+    linear-gradient(90deg, rgba(24, 21, 7, 1), #c9d7d68e  2px);
+    background-size: 15px 15px;
+}    
+.block-ots img {    
     width: 100%;
     height: 100%;   
-    opacity: 0.5;
-}
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    opacity: 0.7;
+    filter: blur(10px);
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 .d-none {
     display: none;   
 }
 
-.draggable {
-    /* border: 1px solid red; */
-    box-shadow: 0px 5px 25px 2px rgba(34, 60, 80, 0.45) inset;
+.draggable {    
+    z-index: 999;
+    box-shadow: 1px 1px 18px 13px rgba(0, 0, 0, 0.15) inset;
     padding: 0;
     margin: 0;
     float: left;
@@ -110,47 +134,53 @@ section {
     animation: hoverElement1 1s linear infinite; /* При наведении включаем анимацию */
     cursor: none;
     position: relative; /* Относительное позиционирование */ 
+    border-radius: 3px;
 }
 
 @keyframes hoverElement1 { /* Сама анимация */
     0% {
-        border: 2px solid #d2f90f;
-        opacity: 0.3; 
+        border: 2px dashed yellow;
+        opacity: 0.5; 
     }
     50% {
-        border: 2px solid red;       
+        border: 2px dashed red;       
         opacity: 0.9;
     }
     100% {
-        border: 2px solid #d2f90f;
-        opacity: 0.3; 
+        border: 2px dashed  yellow;
+        opacity: 0.5; 
+        opacity: 0.5; 
     }
 }
    .neon::after {      
     content: attr(data-tooltip); /* Выводим текст */
     position: absolute; /* Абсолютное позиционирование */
-    font-size: 8px;
-    width: 100px; /* Ширина подсказки */
-    left: 5px; top: 50px; /* Положение подсказки */
+    font-size: 12px;
+    font-weight: 600;
+    width: 104px; /* Ширина подсказки */
+    left: 0; top: 0px; /* Положение подсказки */
     background: red;    /*  цвет фона */
     color: #fff; /* Цвет текста */
-    padding: 0.5em; /* Поля вокруг текста */
+    padding: 0.5em  0.3em; /* Поля вокруг текста */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Параметры тени */
     pointer-events: none; /* Подсказка */
-    opacity: 0; /* Подсказка невидима */
+    opacity: 0.5; /* Подсказка невидима */
     transition: 2s; /* Время появления подсказки */
    } 
    .neon:hover::after {
     opacity: 1; /* Показываем подсказку */
-    top: 100px; /* Положение подсказки */
-    width: 100px;
+    top: -50px; /* Положение подсказки */
+    width: 104px; 
+    padding: 0.5em  0.3em; 
+    
    }
 
-.yellow
+.title
 {
-    position: relative;
-    color: #fdf90c;    
-    text-shadow: #000 2px 0 5px;
+   margin: 10px;
+    color: 
+#006a65; 
+   
 }
 
 .draggable:hover:after {
@@ -164,106 +194,44 @@ section {
 
 }
 
-/* .img1:hover:after {
-    content: "Дом";
-    top: -10px;
-    left: 20px;
-} */
-
 .img2 {
     background-image: url('images/garag-2.png');
 
 }
-
-/* .img2:hover:after {
-    content: "Гараж";
-    top: 0px;
-    left: 18px;
-} */
 
 .img3 {
     background-image: url('images/bes.png');
     background-size: 80%;
 }
 
-/* .img3:hover:after {
-    content: "Беседка";
-    top: 0px;
-    left: 13px;
-} */
-
 .img4 {
     background-image: url('images/banya.png');
 
 }
-
-/* .img4:hover:after {
-    content: "Баня";
-    top: -10px;
-    left: 18px;
-} */
-
 .img5 {
     background-image: url('images/Хоз.постройка.png');
 }
-
-/* .img5:hover:after {
-    content: "Хоз.постройка";
-    top: -10px;
-    left: 0px;
-} */
 
 .img6 {
     background-image: url('images/tualet.png');
 }
 
-/* .img6:hover:after {
-    content: "Туалет";
-    top: -20px;
-    left: 10px;
-} */
-
 .img7 {
     background-image: url('images/vodoem.png');
 }
-
-/* .img7:hover:after {
-    content: "Водоем";
-    top: -20px;
-    left: 10px;
-} */
 
 .img8 {
     background-image: url('images/minDer.png');
 }
 
-/* .img8:hover:after {
-    content: "Малое дерево";
-    top: -20px;
-    left: 25px;
-} */
-
 .img9 {
     background-image: url('images/maxDer.png');
 }
-
-/* .img9:hover:after {
-    content: "Большое дерево";
-    top: -20px;
-    left: 25px;
-} */
-
 .img10 {
     background-image: url('images/kust.PNG');
     width: 40px;   
     height: 40px;
 }
-
-/* .img10:hover:after {
-    content: "Куст";
-    top: -20px;
-    left: 25px;
-} */
 
 .img11 {
     background-image: url('images/zvety-2.PNG');
@@ -293,9 +261,23 @@ button.btnFrm {
     padding: 10px;
     margin: 5px;
     border-radius: 5px; 
-    background-color: #a2bd32;
-    border: 2px solid #a2bd32;
+    background-color: #006a65;
+    border: 2px solid #006a65;
     box-shadow: 18px 14px 44px 0px rgba(34, 60, 80, 0.41);
+    text-shadow: 18px 14px 44px 0px rgba(34, 60, 80, 0.41);
     color: #fff;
 }
+
+
+.active{
+    background-color: green;
+}
+@media screen and (max-width: 800px) {
+    .container {
+        left: 0;
+        max-width: 100%;
+    }
+  }
+  
+
 
