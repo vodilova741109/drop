@@ -5,8 +5,7 @@
 }
 body {
     font-family: sans-serif;     
-    color:
-#006a65;
+    color:#006a65;
 }
 
 .frm-param {
@@ -22,25 +21,28 @@ fieldset {
     border-radius: 4px;
     display: flex;
     flex-wrap: wrap;
-    background-color:  #b3de6a;
+    background-color: #62ac39;
+    color: #fff;
 }
-
+.form-uchastok{
+margin-bottom: 15px;
+}
 .fusion-form-input {
     margin: 5px;
 }
-
 input {
     border: #006a65 1px solid;
     border-radius: 3px;
+    text-align: right;
+    padding: 2px;
+    font-weight: 600;
+    color: #006a65;
 }
-
-
 .param {
-    border: 
-#006a65  double;
+    border: #006a65  double;
     padding: 5px;
+    margin-right: 5px;
 }
-
 .wrapper {
     position: relative;
     /* max-width: 100vw; */
@@ -222,19 +224,23 @@ section {
 
 .img8 {
     background-image: url('images/minDer.png');
+    height: 60px;
+    width: 60px;
 }
 
 .img9 {
     background-image: url('images/maxDer.png');
+    height: 105px;
+    width: 105px;
 }
 .img10 {
-    background-image: url('images/kust.PNG');
+    background-image: url('images/kust.png');
     width: 40px;   
     height: 40px;
 }
 
 .img11 {
-    background-image: url('images/zvety-2.PNG');
+    background-image: url('images/zvety-2.png');
     width: 40px;   
     height: 40px;
 }
@@ -246,10 +252,10 @@ section {
 } */
 
 .draggable.is-pointer-down {
-    /* background: rgb(0, 255, 42); */
+  
     opacity: 0.6;
     z-index: 2;
-    /* above other draggies */
+  
 }
 
 .draggable.is-dragging {
@@ -267,6 +273,10 @@ button.btnFrm {
     text-shadow: 18px 14px 44px 0px rgba(34, 60, 80, 0.41);
     color: #fff;
 }
+.btn-disabled {   
+    background-color: #5a8b88 !important;
+    border: 2px solid  #5a8b88 !important;  
+}
 
 
 .active{
@@ -276,6 +286,10 @@ button.btnFrm {
     .container {
         left: 0;
         max-width: 100%;
+    }
+    .zone {       
+        width: 100%; 
+        max-width: 100%;      
     }
   }
   
