@@ -159,7 +159,7 @@ section {
     position: absolute; /* Абсолютное позиционирование */
     font-size: 12px;
     font-weight: 600;
-    width: 80px; /* Ширина подсказки */
+    width: 104px; /* Ширина подсказки */
     left: 0; top: 0px; /* Положение подсказки */
     background: red;    /*  цвет фона */
     color: #fff; /* Цвет текста */
@@ -172,7 +172,7 @@ section {
    .neon:hover::after {
     opacity: 1; /* Показываем подсказку */
     top: -50px; /* Положение подсказки */
-    width: 80px; 
+    width: 104px; 
     padding: 0.5em  0.3em; 
     
    }

@@ -43,7 +43,7 @@ function addInput(i, inputElement) {
     draggableElems[i].id == "cust" ||
     draggableElems[i].id == "zvety"
   ) {
-    inputElement.innerHTML = `<button id="${nameEl}" class="btnFrm btn-more">+</button><button id="${nameEl}" class="btnFrm btn-less">-</button>`;
+    inputElement.innerHTML = `<button id="${nameEl}" class="btnFrm btn-more ">+</button><button id="${nameEl}" class="btnFrm btn-less">-</button>`;
     inputParam[i].appendChild(inputElement);
     addAndDelElem(nameEl);
   } else {
@@ -58,17 +58,13 @@ function addAndDelElem(nameEl) {
   const btnMore = document.querySelectorAll(".btn-more");
   const btnLess = document.querySelectorAll(".btn-less");
   const boxs = document.querySelector(".box__row");
-  // const dragElems = boxs.querySelectorAll(".draggable");
-  let count = 1;
+ 
   function addElem(){
-    for (let i = 0; i < btnMore.length; i++) {
-    
+    for (let i = 0; i < btnMore.length; i++) {    
       if (btnMore[i]) {
         btnMore[i].addEventListener("click", (e) => {
           e.preventDefault();
           target = e.target;
-          count++;   
-         
           let otstup = 1,
             num = 11;
           switch (target.id) {
@@ -86,43 +82,22 @@ function addAndDelElem(nameEl) {
               break;
             default:
               break;
-          }
-          // for(let i = 0; i< dragElems.length; i++){
+          }     
            
           if (target.id) {
             const el = document.createElement("div");
             el.classList.add(nameEl);
             el.innerHTML = `<span data-tooltip="Отступ ${otstup}м" class="draggable img${num}" draggable="true" id="${nameEl}"></span>`;
-            boxs.appendChild(el);
-            // console.log(boxs)
-            // let elDelete = document.querySelectorAll(`.${nameEl}`)
-            if (!el) {
-              target.disabled = true;
-              target.classList.add("btn-disabled");
-
-           
-            } 
-            // else {
-            //   console.log(target);
-            //   target.disabled = true;
-            //   target.classList.add("btn-disabled");
-            // }
-  
-            const draggableElemsNew = document.querySelectorAll(".draggable");
-            // console.log(draggableElemsNew)
-            // передаем новую разметку картинок
+            boxs.appendChild(el);   
+            const draggableElemsNew = document.querySelectorAll(".draggable");        
             dragMoveDevais(draggableElemsNew);
           }
-          // }
-       
-        
         });
       }
     }
    
   }
   addElem();
-  // console.log(count)
  
   function delElem(){
     for (let i = 0; i < btnLess.length; i++) {    
@@ -130,36 +105,63 @@ function addAndDelElem(nameEl) {
         btnLess[i].addEventListener("click", (e) => {
           e.preventDefault();
           target = e.target;     
-          count--;  
+     
          
           let elDelete = document.querySelectorAll(`.${nameEl}`)
         
-          var last = elDelete[elDelete.length - 1];
-          
-            if (elDelete.length > 0 ) {
-              last.remove();
-              target.disabled = false;
-              target.classList.remove("btn-disabled");           
-         
-            } else {
-              target.disabled = true;
-              target.classList.add("btn-disabled");
-            }
-        
-            const draggableElemsNew = document.querySelectorAll(".draggable");
-            // console.log(draggableElemsNew)
-            // передаем новую разметку картинок
+          var last = elDelete[elDelete.length - 1];     
+          last.remove();  
+            const draggableElemsNew = document.querySelectorAll(".draggable");     
             dragMoveDevais(draggableElemsNew);
-      
         });
       }
     }
   }
-  delElem()
-  
+  delElem();
 
- 
- 
+  function addDisabled(){
+    let target = document.querySelectorAll('.param');
+    for (let i = 0; i < target.length; i++) {   
+      target[i].addEventListener("click", (e) => {
+        e.preventDefault();
+        target = e.target;     
+  
+       
+        let elem = document.querySelectorAll(`.${nameEl}`); 
+   
+  
+        if(target.classList.contains('btn-more')) {  
+          btnLess[i].classList.remove("btn-disabled");
+          btnLess[i].disabled = false;  
+          if(elem.length > 4){     
+            target.disabled = true;
+            target.classList.add("btn-disabled"); 
+          }      
+          else{
+            btnLess[i].classList.remove("btn-disabled");
+            btnLess[i].disabled = false; 
+            target.disabled = false;
+            target.classList.remove("btn-disabled");         
+          }  
+        }
+   
+        if(target.classList.contains('btn-less')){
+          btnMore[i].classList.remove("btn-disabled");
+          btnMore[i].disabled = false;
+          if(elem.length <= 0){
+            target.disabled = true;
+            target.classList.add("btn-disabled"); 
+          }      
+          else{
+            target.disabled = false;
+            target.classList.remove("btn-disabled");        
+          }  
+        }
+        })
+      
+    }
+  }
+  addDisabled();
 }
 
 // функция получения и передачи параметров инпутов
@@ -167,29 +169,12 @@ function getParam() {
   container.style.height = formUchastok[1].value * 150 + "px";
   container.style.width = formUchastok[0].value * 150 + "px";
   inputParam.forEach((item, index) => {
-    const blockParam = item.querySelectorAll(" input");
-    let arrayValue = [];
-    if (blockParam[0].checked) {
-      for (let i = 0; i < blockParam.length; i++) {
-        arrayValue.push(blockParam[i].value);
-        for (let i = 0; i < draggableElems.length; i++) {
-          if (draggableElems[i].id == blockParam[0].value) {
-            if (
-              draggableElems[i].id == "cust" ||
-              draggableElems[i].id == "zvety"
-            ) {
-              draggableElems[i].style.height = blockParam[1].value * 15 + "px";
-              draggableElems[i].style.width = blockParam[1].value * 15 + "px";
-            } else if (
-              draggableElems[i].id != "minDer" ||
-              !draggableElems[i].id != "maxDer"
-            ) {
-              draggableElems[i].style.height =
-                Math.sqrt(blockParam[1].value) * 15 + "px";
-              draggableElems[i].style.width =
-                Math.sqrt(blockParam[1].value) * 15 + "px";
-            }
-          }
+    const blockParam = item.querySelectorAll("input");     
+    if (blockParam[0].checked) { 
+      for (let i = 0; i < draggableElems.length; i++) {
+        if (blockParam[1] != undefined && draggableElems[i].id == blockParam[0].value) {             
+            draggableElems[i].style.height = Math.sqrt(blockParam[1].value) * 15 + "px";
+            draggableElems[i].style.width =  Math.sqrt(blockParam[1].value) * 15 + "px";                         
         }
       }
     }
@@ -314,7 +299,7 @@ function dragMoveDevais(draggableElemsNew) {
         }px`;
       }
       // условия отступа
-      let otstup = 0;
+      let otstup = 15;
       switch (draggableElem.id) {
         case "home":
         case "maxDer":
@@ -325,15 +310,11 @@ function dragMoveDevais(draggableElemsNew) {
         case "minDer":
         case "hozp":
           otstup = 30;
-          break;
-        case "cust":  
-        otstup = 15;
-        break;
+          break;    
         case "zvety":  
-        // otstup = -20;
+        otstup = -20;
         break;
-        default:
-          
+        default:          
         break;
       }
       
