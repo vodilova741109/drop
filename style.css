@@ -184,6 +184,10 @@ section {
 #006a65; 
    
 }
+.block-dendr{
+    display: flex;
+    margin-left: 20px;
+}
 
 .draggable:hover:after {
     position: relative;

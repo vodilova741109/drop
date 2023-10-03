@@ -1,24 +1,23 @@
 // вводные данные
 const formUchastok = document.querySelectorAll(".form-uchastok input");
-elem = document.querySelectorAll('.inputCechck input[type="checkbox"]'),
-  elemType = document.querySelectorAll('input[name="elem-type[]"]'),
-  inputParam = document.querySelectorAll("fieldset .fusion-form-checkbox"),
-  section = document.querySelector("section"),
-  wrapper = document.querySelector(".wrapper"),
-  zone1 = document.querySelector(".zone"),
- container = document.querySelector(".container"),
-  blockPading = document.querySelector(".block-ots"),
-  btnControle = document.querySelector(".calc-control");
+(elem = document.querySelectorAll(".obc input")),
+  (elemType = document.querySelectorAll('input[name="elem-type[]"]')),
+  (inputParam = document.querySelectorAll("fieldset .fusion-form-checkbox")),
+  (section = document.querySelector("section")),
+  (wrapper = document.querySelector(".wrapper")),
+  (zone1 = document.querySelector(".zone")),
+  (container = document.querySelector(".container")),
+  (blockPading = document.querySelector(".block-ots")),
+  (btnControle = document.querySelector(".calc-control"));
 let draggableElems = document.querySelectorAll(".draggable");
-
 // добавить картинку и див под инпуты
 function addImagEndInput() {
   for (let i = 0; i < elem.length; i++) {
     const inputElement = document.createElement("div");
     elem[i].addEventListener("change", (e) => {
       e.preventDefault;
-      target = e.target;
-      target.setAttribute("checked", "true");
+      elem[i].setAttribute("checked", "true");
+
       if (elem[i].checked && elem[i].value === draggableElems[i].id) {
         // добавляет img и див под инпуты
         draggableElems[i].classList.remove("d-none");
@@ -28,6 +27,7 @@ function addImagEndInput() {
         // удаляет img и див под инпуты
         draggableElems[i].classList.add("d-none");
         inputParam[i].removeChild(inputElement);
+        // console.log(inputParam[i]);
       }
     });
   }
@@ -37,13 +37,12 @@ addImagEndInput();
 function addInput(i, inputElement) {
   let nameEl = draggableElems[i].id;
   if (
-    nameEl == "minDer" ||
-    nameEl == "maxDer" ||
-    nameEl == "cust" ||
+    nameEl  == "minDer" ||
+    nameEl  == "maxDer" ||
+    nameEl  == "cust" ||
     nameEl == "zvety"
   ) {
-    inputElement.classList.add(`block-dendr`);
-    inputElement.classList.add(`${nameEl}`);
+    inputElement.classList.add("dendr");
     inputElement.innerHTML = `<button id="${nameEl}" class="btnFrm btn-more ">+</button><button id="${nameEl}" class="btnFrm btn-less">-</button>`;
     inputParam[i].appendChild(inputElement);
     addAndDelElem(nameEl);
@@ -57,105 +56,101 @@ function addInput(i, inputElement) {
 
 // функция добавляет количество картинок
 function addAndDelElem(nameEl) {
- 
+  const btnMore = document.querySelectorAll(".btn-more");
+  const btnLess = document.querySelectorAll(".btn-less");
   const boxs = document.querySelector(".box__row");
-  const boxDendr = document.querySelectorAll(".block-dendr");
-
-  let idElem = 3,
-      otstup = 1,
-      num = 11;
-  switch (nameEl) {
-    case "maxDer":
-      otstup = 3;
-      idElem = 1,
-      num = 9;
-      break;
-    case "minDer":
-      idElem = 0,
-      otstup = 2;
-      num = 8;
-      break;
-    case "cust":
-      idElem = 2,
-      otstup = 1;
-      num = 10;
-      break;
-    default:
-      break;
-  }   
-  let btn,
-  btnMore,
-  btnLess;
-  if(boxDendr[idElem].classList.contains(nameEl)){
-    btn = boxDendr[idElem];  
-    btnMore = btn.querySelector(".btn-more");
-    btnLess = btn.querySelector(".btn-less");
- 
-  }
-
-
  
   function addElem(){
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        target = e.target;
-        // console.log(target, target.classList.contains("btn-more"))
-         
-        if (target.classList.contains("btn-more")) {
-          const el = document.createElement("div");
-          el.classList.add(nameEl);
-          el.innerHTML = `<span data-tooltip="Отступ ${otstup}м" class="draggable img${num}" draggable="true" id="${nameEl}"></span>`;
-          boxs.appendChild(el);   
-          const draggableElemsNew = document.querySelectorAll(".draggable");        
-          dragMoveDevais(draggableElemsNew);
-        }
-      });
+    for (let i = 0; i < btnMore.length; i++) {    
+      if (btnMore[i]) {
+        btnMore[i].addEventListener("click", (e) => {
+          e.preventDefault();
+          target = e.target;
+          let otstup = 1,
+            num = 11;
+          switch (target.id) {
+            case "maxDer":
+              otstup = 3;
+              num = 9;
+              break;
+            case "minDer":
+              otstup = 2;
+              num = 8;
+              break;
+            case "cust":
+              otstup = 1;
+              num = 10;
+              break;
+            default:
+              break;
+          }     
+           
+          if (target.id) {
+            const el = document.createElement("div");
+            el.classList.add(nameEl);
+            el.innerHTML = `<span data-tooltip="Отступ ${otstup}м" class="draggable img${num}" draggable="true" id="${nameEl}"></span>`;
+            boxs.appendChild(el);   
+            const draggableElemsNew = document.querySelectorAll(".draggable");        
+            dragMoveDevais(draggableElemsNew);
+          }
+        });
+      }
+    }
+   
   }
   addElem();
  
   function delElem(){
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        target = e.target;
-        let elDelete = document.querySelectorAll(`.${nameEl}`)
-        if(target.classList.contains("btn-less")){
-          let last = elDelete[elDelete.length - 1];     
+    for (let i = 0; i < btnLess.length; i++) {    
+      if (btnLess[i]) {
+        btnLess[i].addEventListener("click", (e) => {
+          e.preventDefault();
+          target = e.target;    
+          let elDelete = document.querySelectorAll(`.${nameEl}`)
+        
+          var last = elDelete[elDelete.length - 1];     
+          console.log(elDelete);
           last.remove();  
-        }    
-          const draggableElemsNew = document.querySelectorAll(".draggable");     
-          dragMoveDevais(draggableElemsNew);
-      });
+            const draggableElemsNew = document.querySelectorAll(".draggable");     
+            dragMoveDevais(draggableElemsNew);
+        });
+      }
+    }
   }
   delElem();
 
   function addDisabled(){
-  
-  
-      btn.addEventListener("click", (e) => {
+    let target = document.querySelector('.dendr');
+    for (let i = 0; i < target.length; i++) {   
+      target.addEventListener("click", (e) => {
         e.preventDefault();
-        target = e.target; 
+        target = e.target;     
+        console.log(target);
         let elem = document.querySelectorAll(`.${nameEl}`); 
+   
+  
         if(target.classList.contains('btn-more')) {  
-          console.log(btnMore);
-          btnLess.classList.remove("btn-disabled");
-          btnLess.disabled = false;  
+          if(btnLess[i].classList.contains('btn-disabled')){
+            btnLess[i].classList.remove("btn-disabled");
+            btnLess[i].disabled = false; 
+          }
+       
           if(elem.length > 4){     
             target.disabled = true;
             target.classList.add("btn-disabled"); 
           }      
           else{
-            btnLess.classList.remove("btn-disabled");
-            btnLess.disabled = false; 
+            btnLess[i].classList.remove("btn-disabled");
+            btnLess[i].disabled = false; 
             target.disabled = false;
             target.classList.remove("btn-disabled");         
           }  
         }
    
         if(target.classList.contains('btn-less')){
-          console.log(btnLess);
-          btnMore.classList.remove("btn-disabled");
-          btnMore.disabled = false;
-          if(elem.length <= 1){
+          btnMore[i].classList.remove("btn-disabled");
+          btnMore[i].disabled = false;
+          if(elem.length <= 0){
             target.disabled = true;
             target.classList.add("btn-disabled"); 
           }      
@@ -165,7 +160,8 @@ function addAndDelElem(nameEl) {
           }  
         }
         })
- 
+      
+    }
   }
   addDisabled();
 }
@@ -186,6 +182,7 @@ function getParam() {
     }
   });
 }
+
 //событиe передачи параметров
 function start() {
   btnControle.addEventListener("click", (e) => {
@@ -197,6 +194,7 @@ function start() {
   });
 }
 start();
+
 function dragMoveDevais(draggableElemsNew) {
   if (draggableElemsNew) {
     draggableElems = draggableElemsNew;
