@@ -44,7 +44,7 @@ function addInput(i, inputElement) {
   ) {
     inputElement.classList.add(`block-dendr`);
     inputElement.classList.add(`${nameEl}`);
-    inputElement.innerHTML = `<button id="${nameEl}" class="btnFrm btn-more ">+</button><button id="${nameEl}" class="btnFrm btn-less">-</button>`;
+    inputElement.innerHTML = `<button id="${nameEl}" class="btnFrm btn-more ">+</button><button id="${nameEl}" class="btnFrm btn-less btn-disabled" disabled>-</button>`;
     inputParam[i].appendChild(inputElement);
     addAndDelElem(nameEl);
   } else {
@@ -139,7 +139,7 @@ function addAndDelElem(nameEl) {
           console.log(btnMore);
           btnLess.classList.remove("btn-disabled");
           btnLess.disabled = false;  
-          if(elem.length > 4){     
+          if(elem.length > 5){     
             target.disabled = true;
             target.classList.add("btn-disabled"); 
           }      
@@ -155,7 +155,7 @@ function addAndDelElem(nameEl) {
           console.log(btnLess);
           btnMore.classList.remove("btn-disabled");
           btnMore.disabled = false;
-          if(elem.length <= 1){
+          if(elem.length <= 2){
             target.disabled = true;
             target.classList.add("btn-disabled"); 
           }      

@@ -19,10 +19,14 @@ fieldset {
     box-shadow: -5px 14px 23px -1px rgba(34, 60, 80, 0.37);
     padding: 10px;
     border-radius: 4px;
-    display: flex;
-    flex-wrap: wrap;
+ 
     background-color: #62ac39;
     color: #fff;
+}
+.d-flex{
+    display: flex;
+    flex-wrap: wrap;
+
 }
 .form-uchastok{
 margin-bottom: 15px;
